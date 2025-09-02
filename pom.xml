@@ -44,6 +44,9 @@
 
     <!-- 数据库版本 -->
     <mysql-connector-java.version>8.0.29</mysql-connector-java.version>
+
+    <!-- 数据库连接池 -->
+    <druid.version>1.2.21</druid.version>
   </properties>
 
   <!-- 统一依赖管理 -->
@@ -111,6 +114,12 @@
         <version>${mysql-connector-java.version}</version>
       </dependency>
 
+      <!-- Druid 数据库连接池 -->
+      <dependency>
+        <groupId>com.alibaba</groupId>
+        <artifactId>druid-spring-boot-3-starter</artifactId>
+        <version>${druid.version}</version>
+      </dependency>
 
     </dependencies>
   </dependencyManagement>
