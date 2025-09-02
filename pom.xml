@@ -41,6 +41,9 @@
     <spring-cloud-alibaba.version>2022.0.0.0</spring-cloud-alibaba.version>
     <spring-cloud.version>2022.0.0</spring-cloud.version>
     <lombok.version>1.18.30</lombok.version>
+
+    <!-- 数据库版本 -->
+    <mysql-connector-java.version>8.0.29</mysql-connector-java.version>
   </properties>
 
   <!-- 统一依赖管理 -->
@@ -94,6 +97,21 @@
         <version>${revision}</version>
       </dependency>
 
+      <!-- Mybatis -->
+      <dependency>
+        <groupId>org.mybatis.spring.boot</groupId>
+        <artifactId>mybatis-spring-boot-starter</artifactId>
+        <version>${spring-boot.version}</version>
+      </dependency>
+
+      <!-- MySQL 驱动 -->
+      <dependency>
+        <groupId>mysql</groupId>
+        <artifactId>mysql-connector-java</artifactId>
+        <version>${mysql-connector-java.version}</version>
+      </dependency>
+
+
     </dependencies>
   </dependencyManagement>
 
@@ -141,12 +159,12 @@
     <repository>
       <id>huaweicloud</id>
       <name>huawei</name>
-      <url>https://mirrors.huaweicloud.com/repository/maven/</url>
+      <url>http://mirrors.huaweicloud.com/repository/maven/</url>
     </repository>
     <repository>
       <id>aliyunmaven</id>
       <name>aliyun</name>
-      <url>https://maven.aliyun.com/repository/public</url>
+      <url>http://maven.aliyun.com/repository/public</url>
     </repository>
   </repositories>
 
