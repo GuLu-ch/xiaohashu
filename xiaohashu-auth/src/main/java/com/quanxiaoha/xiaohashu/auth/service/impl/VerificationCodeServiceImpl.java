@@ -7,9 +7,12 @@ import com.quanxiaoha.xiaohashu.auth.constant.RedisKeyConstants;
 import com.quanxiaoha.xiaohashu.auth.enums.ResponseCodeEnum;
 import com.quanxiaoha.xiaohashu.auth.model.vo.verificationcode.SendVerificationCodeReqVO;
 import com.quanxiaoha.xiaohashu.auth.service.VerificationCodeService;
+import com.quanxiaoha.xiaohashu.auth.sms.AliyunSmsHelper;
 import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import org.springframework.stereotype.Service;
 
 import java.util.concurrent.TimeUnit;
@@ -20,6 +23,10 @@ import java.util.concurrent.TimeUnit;
 public class VerificationCodeServiceImpl implements VerificationCodeService {
     @Resource
     private RedisTemplate<String, Object> redisTemplate;
+    @Autowired
+    private ThreadPoolTaskExecutor threadPoolTaskExecutor;
+    @Autowired
+    private AliyunSmsHelper aliyunSmsHelper;
 
     /**
      * 发生短信验证码
@@ -45,12 +52,18 @@ public class VerificationCodeServiceImpl implements VerificationCodeService {
         // 生成 6 位随机数字验证码
         String verificationCode = RandomUtil.randomNumbers(6);
 
-        // todo 调用第三方短信发送服务
-
         log.info("==> 手机号: {}, 已发送验证码：【{}】", phone, verificationCode);
 
         // 存储验证码到 redis, 并设置过期时间为 3 分钟
         redisTemplate.opsForValue().set(key, verificationCode, 3, TimeUnit.MINUTES);
+
+        // todo 调用第三方短信发送服务
+//        threadPoolTaskExecutor.submit(() -> {
+//            String signName = "阿里云短信测试";
+//            String templateCode = "SMS_154950909";
+//            String templateParam = String.format("{\"code\":\"%s\"}", verificationCode);
+//            aliyunSmsHelper.sendMessage(signName, templateCode, phone, templateParam);
+//        });
 
         return Response.success();
     }
